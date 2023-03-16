@@ -40,7 +40,6 @@ fun Greeting() {
             onValueChange = { name = it }, // change its value if user enters text
             label = { Text("Name") },
             modifier = Modifier
-            //.border(1.dp, RoundedCornerShape(2.dp))
         )
     }
 

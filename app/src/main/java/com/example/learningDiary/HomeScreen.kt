@@ -224,6 +224,7 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
                             Text(text = "Actors: ${movie.actors}")
                             Text(text = "Director: ${movie.director}")
                             Text(text = "Rating: ${movie.rating}")
+                            Text(text = "Plot: ${movie.plot}")
                         }
                     }
                 }

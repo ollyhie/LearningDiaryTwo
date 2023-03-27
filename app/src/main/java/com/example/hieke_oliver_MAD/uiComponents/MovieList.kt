@@ -37,9 +37,9 @@ import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
-import com.example.hieke_oliver_MAD.Navigation
-import com.example.hieke_oliver_MAD.models.Movie
-import com.example.oliver_hieke_MAD.R
+import com.example.LearningDiary.Navigation
+import com.example.LearningDiary.models.Movie
+import com.example.LearningDiary.R
 import kotlin.random.Random
 
 fun getFavouredIcon(favoured: Boolean): ImageVector {
@@ -198,6 +198,7 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
                                 .wrapContentSize()
                         )
                         Icon(
+                            tint = Color.White,
                             imageVector = Icons.Rounded.KeyboardArrowUp,
                             contentDescription = "DropDownArrow",
                             modifier = Modifier.rotate(rotation)

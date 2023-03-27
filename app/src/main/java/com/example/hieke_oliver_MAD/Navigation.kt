@@ -1,4 +1,4 @@
-package com.example.hieke_oliver_MAD
+package com.example.LearningDiary
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -7,9 +7,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
-import com.example.hieke_oliver_MAD.screens.DetailScreen
-import com.example.hieke_oliver_MAD.screens.FavouritesScreen
-import com.example.hieke_oliver_MAD.screens.HomeScreen
+import com.example.LearningDiary.screens.DetailScreen
+import com.example.LearningDiary.screens.FavouritesScreen
+import com.example.LearningDiary.screens.HomeScreen
 
 const val ARG_DETAIL_MOV_ID = "movieID"
 

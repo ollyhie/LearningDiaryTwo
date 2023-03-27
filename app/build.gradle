@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.oliver_hieke_MAD'
+    namespace 'com.example.LearningDiary'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.hieke–MAD"
+        applicationId "com.example.LearningDiary"
         minSdk 33
         targetSdk 33
         versionCode 1

@@ -1,4 +1,4 @@
-package com.example.hieke_oliver_MAD.screens
+package com.example.LearningDiary.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -6,9 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
-import com.example.hieke_oliver_MAD.models.getFavouredMovies
-import com.example.hieke_oliver_MAD.uiComponents.MovieList
-import com.example.hieke_oliver_MAD.uiComponents.SimpleAppBar
+import com.example.LearningDiary.models.getFavouredMovies
+
+import com.example.LearningDiary.uiComponents.SimpleAppBar
+import com.example.learningDiary.MovieList
 
 @ExperimentalCoilApi
 @Composable

@@ -1,4 +1,4 @@
-package com.example.hieke_oliver_MAD.ui.theme
+package com.example.LearningDiary.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

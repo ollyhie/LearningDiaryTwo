@@ -1,4 +1,4 @@
-package com.example.hieke_oliver_MAD.uiComponents
+package com.example.LearningDiary.uiComponents
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*

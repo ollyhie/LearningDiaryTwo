@@ -1,4 +1,4 @@
-package com.example.hieke_oliver_MAD
+package com.example.LearningDiary
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

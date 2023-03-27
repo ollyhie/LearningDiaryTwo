@@ -1,4 +1,4 @@
-package com.example.hieke_oliver_MAD
+package com.example.LearningDiary
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.example.hieke_oliver_MAD.ui.theme.LearningDiaryTheme
+import com.example.LearningDiary.ui.theme.LearningDiaryTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

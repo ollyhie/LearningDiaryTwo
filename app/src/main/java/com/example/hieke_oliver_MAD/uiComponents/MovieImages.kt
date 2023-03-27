@@ -1,4 +1,4 @@
-package com.example.hieke_oliver_MAD.uiComponents
+package com.example.LearningDiary.uiComponents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
+import com.example.LearningDiary.R
 
 @ExperimentalCoilApi
 @Composable

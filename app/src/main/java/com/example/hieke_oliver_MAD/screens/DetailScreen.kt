@@ -1,14 +1,14 @@
-package com.example.hieke_oliver_MAD.screens
+package com.example.LearningDiary.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
-import com.example.hieke_oliver_MAD.models.getMovieByID
-import com.example.hieke_oliver_MAD.uiComponents.MovieRow
-import com.example.hieke_oliver_MAD.uiComponents.SimpleAppBar
-import com.example.hieke_oliver_MAD.uiComponents.MovieImages
+import com.example.LearningDiary.models.getMovieByID
+import com.example.LearningDiary.uiComponents.SimpleAppBar
+import com.example.LearningDiary.uiComponents.MovieImages
+import com.example.learningDiary.MovieRow
 
 @ExperimentalCoilApi
 @Composable

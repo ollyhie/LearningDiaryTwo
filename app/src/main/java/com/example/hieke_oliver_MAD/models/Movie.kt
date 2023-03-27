@@ -1,4 +1,4 @@
-package com.example.hieke_oliver_MAD.models
+package com.example.LearningDiary.models
 
 data class Movie(
     val id: String,

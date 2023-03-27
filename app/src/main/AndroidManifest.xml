@@ -14,7 +14,7 @@
         android:theme="@style/Theme.LearningDiary"
         tools:targetApi="31">
         <activity
-            android:name="com.example.learningDiary.MainActivity"
+            android:name="com.example.hieke_oliver_MAD.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LearningDiary">

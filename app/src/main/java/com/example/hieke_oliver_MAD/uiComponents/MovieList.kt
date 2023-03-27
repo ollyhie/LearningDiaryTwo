@@ -9,6 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,86 +18,52 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
-import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
-import com.example.learningDiary.models.Movie
-import com.example.learningDiary.models.getMovies
+import com.example.hieke_oliver_MAD.Navigation
+import com.example.hieke_oliver_MAD.models.Movie
+import com.example.oliver_hieke_MAD.R
 import kotlin.random.Random
+
+fun getFavouredIcon(favoured: Boolean): ImageVector {
+
+    if (favoured) {
+        return Icons.Filled.Favorite
+    }
+    return Icons.Outlined.FavoriteBorder
+}
 
 @ExperimentalCoilApi
 @Composable
-fun HomeScreen(navController: NavController) {
+fun MovieList(navController: NavController, movies: List<Movie>) {
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        HomeScreenAppBar()
-        MovieList(navController = navController)
-    }
-}
-
-@Composable
-fun HomeScreenAppBar() {
-
-    var expanded by remember {
-        mutableStateOf(false)
-    }
-
-    TopAppBar(
-        backgroundColor = Color(0xff006d65),
-        title = {
-            Text(text = "Movies")
-        },
-        actions = {
-            IconButton(onClick = {
-                /*TODO*/
-            }) {
-                Icon(
-                    imageVector = Icons.Rounded.Menu,
-                    contentDescription = "MenuIcon",
-                    modifier = Modifier.clickable { expanded = !expanded }
+    LazyColumn {
+        items(movies) { movie ->
+            MovieRow(movie = movie) { movieID ->
+                navController.navigate(
+                    route = Navigation.DetailScreen.setID(movieID)
                 )
             }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                offset = DpOffset((-3).dp, 0.dp),
-            )
-            {
-
-                DropdownMenuItem(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .padding(end = 40.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Favorite,
-                        contentDescription = "Favour",
-                        tint = Color.Red
-                    )
-                    Text(
-                        text = "Favorites",
-                        modifier = Modifier
-                            .padding(start = 10.dp)
-                    )
-                }
-            }
         }
-    )
+    }
 }
-
 
 @ExperimentalCoilApi
 @Composable
@@ -110,6 +77,10 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
     val rotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f
     )
+    // For favour icon
+    var favoured by remember {
+        mutableStateOf(movie.favoured)
+    }
     // For image index
     var index by remember {
         mutableStateOf(0)
@@ -160,24 +131,34 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
 
                     changeImage = false
                     handler.postDelayed(Runnable {
-                        index = Random.nextInt(0, movie.images.size)
+                        index = if (expanded) {
+                            Random.nextInt(0, movie.images.size)
+                        } else {
+                            0
+                        }
                         changeImage = true
                     }, 6000)
                 }
-                Icon(
-                    imageVector = Icons.Outlined.FavoriteBorder,
-                    contentDescription = "Favour",
-                    tint = Color.Red,
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(10.dp)
-                        .size(30.dp)
-                )
+                IconButton(
+                    onClick = {
+                        favoured = !favoured
+                        movie.favoured = favoured
+                    }, modifier = Modifier.align(Alignment.TopEnd)
+                ) {
+                    Icon(
+                        imageVector = getFavouredIcon(favoured),
+                        contentDescription = "Favour",
+                        tint = Color.Red,
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .size(30.dp)
+                    )
+                }
             }
 
             Box(
                 modifier = Modifier
-                    .background(Color.LightGray)
+                    .background(Color.Black)    //LightGray
             ) {
 
                 Column(
@@ -202,9 +183,17 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
                     ) {
                         Text(
                             text = movie.title,
-                            fontSize = MaterialTheme.typography.h6.fontSize,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
+                            style = TextStyle(
+                                fontSize = MaterialTheme.typography.h6.fontSize,
+                                color = Color.White,
+                                shadow = Shadow(
+                                    color = Color.Gray,
+                                    offset = Offset(5.0f, 10.0f),
+                                    blurRadius = 3f
+                                )
+                            ),
                             modifier = Modifier
                                 .wrapContentSize()
                         )
@@ -217,32 +206,55 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
                     Column {
                         if (expanded) {
                             Text(
-                                text = "Year: ${movie.year}",
-                                Modifier.padding(top = 10.dp)
+                                modifier = Modifier.padding(top = 10.dp),
+                                text = buildAnnotatedString {
+                                    withStyle(style = SpanStyle(color = Color.Gray)) {
+                                        append("Year: ")
+                                    }
+                                    withStyle(style = SpanStyle(color = Color.White)) {
+                                        append(movie.year)
+                                    }
+                                    withStyle(style = SpanStyle(color = Color.Gray)) {
+                                        append("Actors: ")
+                                    }
+                                    withStyle(style = SpanStyle(color = Color.White)) {
+                                        append(movie.actors)
+                                    }
+                                    withStyle(style = SpanStyle(color = Color.Gray)) {
+                                        append("Director: ")
+                                    }
+                                    withStyle(style = SpanStyle(color = Color.White)) {
+                                        append(movie.director)
+                                    }
+                                    withStyle(style = SpanStyle(color = Color.Gray)) {
+                                        append("Rating: ")
+                                    }
+                                    withStyle(style = SpanStyle(color = Color.White)) {
+                                        append(movie.rating)
+                                    }
+                                }
                             )
-                            Text(text = "Genre: ${movie.genre}")
-                            Text(text = "Actors: ${movie.actors}")
-                            Text(text = "Director: ${movie.director}")
-                            Text(text = "Rating: ${movie.rating}")
+                            Text(
+                                text = buildAnnotatedString {
+                                    withStyle(style = SpanStyle(color = Color.White)) {
+                                        append(movie.plot)
+                                    }
+                                }
+                            )
+                            Text(
+                                modifier = Modifier.padding(top = 10.dp),
+                                text = buildAnnotatedString {
+                                    withStyle(style = SpanStyle(color = Color.Gray)) {
+                                        append("Genre: ")
+                                    }
+                                    withStyle(style = SpanStyle(color = Color.White)) {
+                                        append(movie.genre)
+                                    }
+                                }
+                            )
                         }
                     }
                 }
-
-            }
-        }
-    }
-}
-
-@ExperimentalCoilApi
-@Composable
-fun MovieList(navController: NavController) {
-
-    val movies = getMovies()
-
-    LazyColumn {
-        items(movies) { movie ->
-            MovieRow(movie = movie) { movieID ->
-                navController.navigate(route = "detailScreen/$movieID")
             }
         }
     }

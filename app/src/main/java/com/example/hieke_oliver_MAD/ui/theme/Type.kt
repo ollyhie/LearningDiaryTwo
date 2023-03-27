@@ -1,4 +1,4 @@
-package com.example.learningDiary.ui.theme
+package com.example.hieke_oliver_MAD.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

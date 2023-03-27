@@ -1,63 +1,21 @@
-package com.example.learningDiary
+package com.example.hieke_oliver_MAD.uiComponents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
-import com.example.learningDiary.models.getMovieByID
-
-@ExperimentalCoilApi
-@Composable
-fun DetailScreen(navController: NavController, movieID: String?) {
-
-    val movie = getMovieByID(movieID)
-
-    if (movie != null) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            DetailScreenAppBar(title = movie.title) {
-                navController.navigateUp()
-            }
-            MovieRow(movie = movie, openDetailScreen = {})
-            MovieImages(images = movie.images)
-        }
-    }
-}
-
-@Composable
-fun DetailScreenAppBar(title: String, goBack: () -> Unit) {
-
-    TopAppBar(
-        backgroundColor = Color(0xff006d65),
-        title = {
-            Text(text = title)
-        },
-        navigationIcon = {
-            IconButton(onClick = {
-                goBack()
-            }) {
-                Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = "Back",
-                )
-            }
-        }
-    )
-}
 
 @ExperimentalCoilApi
 @Composable

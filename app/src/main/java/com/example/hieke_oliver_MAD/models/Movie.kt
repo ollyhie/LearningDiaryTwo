@@ -1,4 +1,4 @@
-package com.example.learningDiary.models
+package com.example.hieke_oliver_MAD.models
 
 data class Movie(
     val id: String,
@@ -9,7 +9,8 @@ data class Movie(
     val actors: String,
     val plot: String,
     val images: List<String>,
-    val rating: String)
+    val rating: String,
+    var favoured: Boolean = false)
 
 fun getMovieByID(movieID: String?) : Movie? {
 
@@ -17,6 +18,17 @@ fun getMovieByID(movieID: String?) : Movie? {
         if (movie.id == movieID) return movie
     }
     return null
+}
+
+fun getFavouredMovies() : List<Movie>? {
+
+    val favouredMovies: MutableList<Movie> = mutableListOf()
+    for (movie in getMovies()) {
+        if (movie.favoured) {
+            favouredMovies.add(movie)
+        }
+    }
+    return favouredMovies
 }
 
 fun getMovies(): List<Movie> {
@@ -33,7 +45,8 @@ fun getMovies(): List<Movie> {
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BMTY2ODQ3NjMyMl5BMl5BanBnXkFtZTcwODg0MTUzNA@@._V1_SX1777_CR0,0,1777,999_AL_.jpg",
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BMTMxOTEwNDcxN15BMl5BanBnXkFtZTcwOTg0MTUzNA@@._V1_SX1777_CR0,0,1777,999_AL_.jpg",
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BMTYxMDg1Nzk1MV5BMl5BanBnXkFtZTcwMDk0MTUzNA@@._V1_SX1500_CR0,0,1500,999_AL_.jpg"),
-            rating = "7.9"),
+            rating = "7.9",
+            favoured = true),
 
         Movie(id = "tt0416449",
             title = "300",
@@ -74,7 +87,8 @@ fun getMovies(): List<Movie> {
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BMTExMDk1MDE4NzVeQTJeQWpwZ15BbWU4MDM4NDM0ODAx._V1_SX1500_CR0,0,1500,999_AL_.jpg",
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BMTg3MTY4NDk4Nl5BMl5BanBnXkFtZTgwNjc0MzQ4MDE@._V1_SX1500_CR0,0,1500,999_AL_.jpg",
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BMTgzMTg4MDI0Ml5BMl5BanBnXkFtZTgwOTY0MzQ4MDE@._V1_SY1000_CR0,0,1553,1000_AL_.jpg"),
-            rating = "8.2"),
+            rating = "8.2",
+            favoured = true),
 
         Movie(id = "tt0816692",
             title = "Interstellar",
@@ -101,7 +115,8 @@ fun getMovies(): List<Movie> {
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BMDk4Y2Y1MDAtNGVmMC00ZTlhLTlmMmQtYjcyN2VkNzUzZjg2XkEyXkFqcGdeQXVyNjUxNzgwNTE@._V1_SX1777_CR0,0,1777,999_AL_.jpg",
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BNjZjNWIzMzQtZWZjYy00ZTkwLWJiMTYtOWRkZDBhNWJhY2JmXkEyXkFqcGdeQXVyMjk3NTUyOTc@._V1_SX1777_CR0,0,1777,999_AL_.jpg",
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BNTMyMTRjZWEtM2UxMS00ZjU5LWIxMTYtZDA5YmJhZmRjYTc4XkEyXkFqcGdeQXVyMjk3NTUyOTc@._V1_SX1777_CR0,0,1777,999_AL_.jpg"),
-            rating = "9.5"),
+            rating = "9.5",
+            favoured = true),
 
 
         Movie(id = "tt2306299",

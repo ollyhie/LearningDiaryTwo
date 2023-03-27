@@ -1,4 +1,4 @@
-package com.example.learningDiary
+package com.example.hieke_oliver_MAD
 
 import org.junit.Test
 

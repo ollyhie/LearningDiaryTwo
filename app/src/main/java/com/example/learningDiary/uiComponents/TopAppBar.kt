@@ -1,8 +1,9 @@
-package com.example.LearningDiary.uiComponents
+package com.example.learningDiary.uiComponents
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Menu
@@ -13,7 +14,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SimpleAppBar(title: String, goBack: () -> Unit) {
+fun SimpleAppBar(title: String, onBackClicked: () -> Unit) {
 
     TopAppBar(
         backgroundColor = Color(0xff006d65),
@@ -22,7 +23,7 @@ fun SimpleAppBar(title: String, goBack: () -> Unit) {
         },
         navigationIcon = {
             IconButton(onClick = {
-                goBack()
+                onBackClicked()
             }) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBack,
@@ -34,7 +35,7 @@ fun SimpleAppBar(title: String, goBack: () -> Unit) {
 }
 
 @Composable
-fun TopAppBar(openFavouritesScreen: () -> Unit) {
+fun TopAppBar(onOpenFavouritesClicked: () -> Unit, onAddMovieClicked: () -> Unit) {
 
     var expanded by remember {
         mutableStateOf(false)
@@ -63,7 +64,7 @@ fun TopAppBar(openFavouritesScreen: () -> Unit) {
 
                 DropdownMenuItem(
                     onClick = {
-                        openFavouritesScreen()
+                        onOpenFavouritesClicked()
                     },
                     modifier = Modifier
                         .padding(end = 40.dp)
@@ -75,6 +76,25 @@ fun TopAppBar(openFavouritesScreen: () -> Unit) {
                     )
                     Text(
                         text = "Favourites",
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                    )
+                }
+
+                DropdownMenuItem(
+                    onClick = {
+                        onAddMovieClicked()
+                    },
+                    modifier = Modifier
+                        .padding(end = 40.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "AddIcon",
+                        tint = Color.DarkGray
+                    )
+                    Text(
+                        text = "Add Movie",
                         modifier = Modifier
                             .padding(start = 10.dp)
                     )

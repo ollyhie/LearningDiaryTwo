@@ -1,20 +1,20 @@
-package com.example.LearningDiary.screens
+package com.example.learningDiary.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
-import com.example.LearningDiary.models.getMovieByID
-import com.example.LearningDiary.uiComponents.SimpleAppBar
-import com.example.LearningDiary.uiComponents.MovieImages
-import com.example.learningDiary.MovieRow
+import com.example.learningDiary.uiComponents.SimpleAppBar
+import com.example.learningDiary.uiComponents.MovieImages
+import com.example.learningDiary.uiComponents.MovieRow
+import com.example.learningDiary.viewModel.MoviesViewModel
 
 @ExperimentalCoilApi
 @Composable
-fun DetailScreen(navController: NavController, movieID: String?) {
+fun DetailScreen(navController: NavController, moviesViewModel: MoviesViewModel, movieID: String?) {
 
-    val movie = getMovieByID(movieID)
+    val movie = moviesViewModel.getMovieByID(movieID)
     val title = movie?.title ?: ""
 
     Column(
@@ -24,7 +24,7 @@ fun DetailScreen(navController: NavController, movieID: String?) {
             navController.navigateUp()
         }
         if (movie != null) {
-            MovieRow(movie = movie, openDetailScreen = {})
+            MovieRow(movie = movie)
             MovieImages(images = movie.images)
         }
     }

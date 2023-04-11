@@ -1,4 +1,4 @@
-package com.example.LearningDiary
+package com.example.learningDiary
 
 import org.junit.Test
 

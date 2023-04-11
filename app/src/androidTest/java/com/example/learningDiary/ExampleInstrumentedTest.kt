@@ -1,4 +1,4 @@
-package com.example.LearningDiary
+package com.example.learningDiary
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

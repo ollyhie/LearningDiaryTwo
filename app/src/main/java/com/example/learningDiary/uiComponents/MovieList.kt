@@ -1,4 +1,4 @@
-package com.example.learningDiary
+package com.example.learningDiary.uiComponents
 
 import android.os.Handler
 import androidx.compose.animation.animateContentSize
@@ -36,14 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
+import com.example.learningDiary.R
+import com.example.learningDiary.Navigation
+import com.example.learningDiary.models.Movie
+import com.example.learningDiary.viewModel.MoviesViewModel
 import coil.compose.rememberImagePainter
-import com.example.LearningDiary.Navigation
-import com.example.LearningDiary.models.Movie
-import com.example.LearningDiary.R
 import kotlin.random.Random
 
 fun getFavouredIcon(favoured: Boolean): ImageVector {
-
     if (favoured) {
         return Icons.Filled.Favorite
     }
@@ -52,22 +52,28 @@ fun getFavouredIcon(favoured: Boolean): ImageVector {
 
 @ExperimentalCoilApi
 @Composable
-fun MovieList(navController: NavController, movies: List<Movie>) {
+fun MovieList(navController: NavController, moviesViewModel: MoviesViewModel, movies: List<Movie>) {
 
     LazyColumn {
         items(movies) { movie ->
-            MovieRow(movie = movie) { movieID ->
-                navController.navigate(
-                    route = Navigation.DetailScreen.setID(movieID)
-                )
-            }
+            MovieRow(
+                movie = movie,
+                onMovieClicked = { movieID ->
+                    navController.navigate(
+                        route = Navigation.DetailScreen.setID(movieID)
+                    )
+                },
+                onFavourIconClicked = { movieID ->
+                    moviesViewModel.toggleFavourite(movieID)
+                }
+            )
         }
     }
 }
 
 @ExperimentalCoilApi
 @Composable
-fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
+fun MovieRow(movie: Movie, onMovieClicked: (String) -> Unit = {}, onFavourIconClicked: (String) -> Unit = {}) {
 
     // For movie description
     var expanded by remember {
@@ -77,12 +83,8 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
     val rotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f
     )
-    // For favour icon
-    var favoured by remember {
-        mutableStateOf(movie.favoured)
-    }
-    // For image index
-    var index by remember {
+    // For current image
+    var imageIndex by remember {
         mutableStateOf(0)
     }
     // Allow to change the image
@@ -96,7 +98,7 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable { openDetailScreen(movie.id) },
+            .clickable { onMovieClicked(movie.id) },
         shape = RoundedCornerShape(10.dp)
     ) {
         Column {
@@ -106,19 +108,16 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
                     .height(200.dp),
                 contentAlignment = Alignment.Center
             ) {
-                val painter = rememberImagePainter(
-                    data = movie.images[index],
-                    builder = {
-                        error(R.drawable.avatar2)
-                        crossfade(500)
-                    }
-                )
 
-                val state = painter.state
-                if (state is ImagePainter.State.Loading) {
+                val painter = rememberImagePainter(
+                        data = movie.images[imageIndex],
+                        builder = {
+                            error(R.drawable.avatar2)
+                            crossfade(500)
+                        }
+                    )
+                if (painter.state is ImagePainter.State.Loading) {
                     CircularProgressIndicator()
-                } else if (state is ImagePainter.State.Success) {
-                    // Change image
                 }
 
                 Image(
@@ -130,23 +129,25 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
                 if (expanded && changeImage) {
 
                     changeImage = false
+
                     handler.postDelayed(Runnable {
-                        index = if (expanded) {
+
+                        imageIndex = if (expanded) {
                             Random.nextInt(0, movie.images.size)
                         } else {
                             0
                         }
                         changeImage = true
-                    }, 6000)
+
+                    }, 5000)
                 }
                 IconButton(
                     onClick = {
-                        favoured = !favoured
-                        movie.favoured = favoured
+                        onFavourIconClicked(movie.id)
                     }, modifier = Modifier.align(Alignment.TopEnd)
                 ) {
                     Icon(
-                        imageVector = getFavouredIcon(favoured),
+                        imageVector = getFavouredIcon(movie.favoured),
                         contentDescription = "Favour",
                         tint = Color.Red,
                         modifier = Modifier
@@ -158,7 +159,7 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
 
             Box(
                 modifier = Modifier
-                    .background(Color.Black)    //LightGray
+                    .background(Color.Black)
             ) {
 
                 Column(
@@ -231,7 +232,7 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
                                         append("Rating: ")
                                     }
                                     withStyle(style = SpanStyle(color = Color.White)) {
-                                        append(movie.rating)
+                                        append(movie.rating.toString())
                                     }
                                 }
                             )
@@ -249,7 +250,7 @@ fun MovieRow(movie: Movie, openDetailScreen: (String) -> Unit) {
                                         append("Genre: ")
                                     }
                                     withStyle(style = SpanStyle(color = Color.White)) {
-                                        append(movie.genre)
+                                        append(movie.genres.toString())
                                     }
                                 }
                             )

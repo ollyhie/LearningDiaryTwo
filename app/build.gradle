@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.LearningDiary'
+    namespace 'com.example.learningDiary'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.LearningDiary"
+        applicationId "com.example.learningDiary"
         minSdk 33
         targetSdk 33
         versionCode 1
@@ -47,6 +47,8 @@ android {
 }
 
 dependencies {
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:{latest_version}")
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'

@@ -1,15 +1,18 @@
-package com.example.LearningDiary
+package com.example.learningDiary
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
-import com.example.LearningDiary.screens.DetailScreen
-import com.example.LearningDiary.screens.FavouritesScreen
-import com.example.LearningDiary.screens.HomeScreen
+import com.example.learningDiary.screens.AddMovieScreen
+import com.example.learningDiary.screens.DetailScreen
+import com.example.learningDiary.screens.FavouritesScreen
+import com.example.learningDiary.screens.HomeScreen
+import com.example.learningDiary.viewModel.MoviesViewModel
 
 const val ARG_DETAIL_MOV_ID = "movieID"
 
@@ -17,6 +20,7 @@ sealed class Navigation(val route: String) {
 
     object HomeScreen : Navigation(route = "homeScreen")
     object FavouriteScreen : Navigation(route = "favouriteScreen")
+    object AddMovieScreen : Navigation(route = "addMovieScreen")
     object DetailScreen : Navigation(route = "detailScreen/{$ARG_DETAIL_MOV_ID}") {
         fun setID(movieID: String): String {
             return this.route.replace(oldValue = "{$ARG_DETAIL_MOV_ID}",
@@ -29,6 +33,7 @@ sealed class Navigation(val route: String) {
 @Composable
 fun NavigationController() {
     val navController = rememberNavController()
+    val moviesViewModel: MoviesViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -36,7 +41,10 @@ fun NavigationController() {
     ) {
         composable(
             route = Navigation.HomeScreen.route
-        ) { HomeScreen(navController = navController) }
+        ) { HomeScreen(
+            navController = navController,
+            moviesViewModel = moviesViewModel
+        ) }
         composable(
             Navigation.DetailScreen.route,
             arguments = listOf(navArgument(ARG_DETAIL_MOV_ID) {
@@ -45,11 +53,21 @@ fun NavigationController() {
         ) { navBackStackEntry ->
             DetailScreen(
                 navController = navController,
+                moviesViewModel = moviesViewModel,
                 movieID = navBackStackEntry.arguments?.getString(ARG_DETAIL_MOV_ID)
             )
         }
         composable(
             Navigation.FavouriteScreen.route
-        ) { FavouritesScreen(navController = navController) }
+        ) { FavouritesScreen(
+            navController = navController,
+            moviesViewModel = moviesViewModel
+        ) }
+        composable(
+            Navigation.AddMovieScreen.route
+        ) { AddMovieScreen(
+            navController = navController,
+            moviesViewModel = moviesViewModel
+        ) }
     }
 }

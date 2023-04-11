@@ -1,4 +1,4 @@
-package com.example.LearningDiary.ui.theme
+package com.example.learningDiary.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

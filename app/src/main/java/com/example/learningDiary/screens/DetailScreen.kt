@@ -15,12 +15,12 @@ import com.example.learningDiary.viewModel.MoviesViewModel
 fun DetailScreen(navController: NavController, moviesViewModel: MoviesViewModel, movieID: String?) {
 
     val movie = moviesViewModel.getMovieByID(movieID)
-    val title = movie?.title ?: ""
+    val title = movie.title
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        SimpleAppBar(title = title) {
+        SimpleAppBar(title = movie.title) {
             navController.navigateUp()
         }
         if (movie != null) {

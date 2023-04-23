@@ -3,12 +3,14 @@ package com.example.learningDiary.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import com.example.learningDiary.uiComponents.SimpleAppBar
 import com.example.learningDiary.uiComponents.MovieList
 import com.example.learningDiary.viewModel.MoviesViewModel
+import kotlinx.coroutines.CoroutineScope
 
 @ExperimentalCoilApi
 @Composable
@@ -23,7 +25,7 @@ fun FavouritesScreen(navController: NavController, moviesViewModel: MoviesViewMo
             MovieList(
                 navController = navController,
                 moviesViewModel = moviesViewModel,
-                movies = moviesViewModel.favouredMovies
+                movies = moviesViewModel.favouredMovies.collectAsState()
             )
     }
 }

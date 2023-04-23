@@ -8,11 +8,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
+import com.example.learningDiary.data.MovieDataBase
+import com.example.learningDiary.repositories.MovieRepository
 import com.example.learningDiary.ui.theme.LearningDiaryTheme
+import com.example.learningDiary.utils.InjectorUtils
 import com.example.learningDiary.viewModel.MoviesViewModel
 import kotlinx.coroutines.launch
 
@@ -20,22 +25,6 @@ class MainActivity : ComponentActivity() {
     @ExperimentalCoilApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        /*
-        val viewModel: MoviesViewModel by viewModels()
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.movies.forEach { movie ->
-                    if (movie.favoured != movie.lastState) {
-                        // Navigate to the Home screen.
-                    }
-                }
-            }
-        }
-
-         */
-
         setContent {
             LearningDiaryTheme {
                 // A surface container using the 'background' color from the theme
@@ -43,7 +32,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    NavigationController()
+                    val factory = InjectorUtils.provideMoviesViewModelFactory(LocalContext.current)
+                    val moviesViewModel: MoviesViewModel = viewModel(factory = factory)
+                    NavigationController(moviesViewModel = moviesViewModel)
                 }
             }
         }

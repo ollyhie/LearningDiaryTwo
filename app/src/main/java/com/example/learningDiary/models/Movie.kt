@@ -1,24 +1,34 @@
 package com.example.learningDiary.models
 
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+
+@Entity
 data class Movie(
+    @PrimaryKey
     val id: String,
     val title: String,
     val year: String,
-    val genres: List<Genre>,
+    //val genres: List<Genre>,
     val director: String,
     val actors: String,
     val plot: String,
     val images: List<String>,
     val rating: Float = 0f,
     var favoured: Boolean = false
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other)
+    }
+}
 
 fun getMovies(): List<Movie> {
     return listOf(
         Movie(id = "tt0499549",
             title = "Avatar",
             year = "2009",
-            genres = listOf(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY),
+            //genres = listOf(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY),
             director = "James Cameron",
             actors = "Sam Worthington, Zoe Saldana, Sigourney Weaver, Stephen Lang",
             plot = "A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
@@ -33,7 +43,7 @@ fun getMovies(): List<Movie> {
         Movie(id = "tt0416449",
             title = "300",
             year = "2006",
-            genres = listOf(Genre.ACTION, Genre.DRAMA, Genre.FANTASY),
+            //genres = listOf(Genre.ACTION, Genre.DRAMA, Genre.FANTASY),
             director = "Zack Snyder",
             actors = "Gerard Butler, Lena Headey, Dominic West, David Wenham",
             plot = "King Leonidas of Sparta and a force of 300 men fight the Persians at Thermopylae in 480 B.C.",
@@ -47,7 +57,7 @@ fun getMovies(): List<Movie> {
         Movie(id = "tt0848228",
             title = "The Avengers",
             year = "2012",
-            genres = listOf(Genre.ACTION, Genre.SCIFI, Genre.THRILLER),
+            //genres = listOf(Genre.ACTION, Genre.SCIFI, Genre.THRILLER),
             director = "Joss Whedon",
             actors = "Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth",
             plot = "Earth's mightiest heroes must come together and learn to fight as a team if they are to stop the mischievous Loki and his alien army from enslaving humanity.",
@@ -61,7 +71,7 @@ fun getMovies(): List<Movie> {
         Movie(id = "tt0993846",
             title = "The Wolf of Wall Street",
             year = "2013",
-            genres = listOf(Genre.BIOGRAPHY, Genre.COMEDY, Genre.COMEDY),
+            //genres = listOf(Genre.BIOGRAPHY, Genre.COMEDY, Genre.COMEDY),
             director = "Martin Scorsese",
             actors = "Leonardo DiCaprio, Jonah Hill, Margot Robbie, Matthew McConaughey",
             plot = "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
@@ -75,7 +85,7 @@ fun getMovies(): List<Movie> {
         Movie(id = "tt0816692",
             title = "Interstellar",
             year = "2014",
-            genres = listOf(Genre.ADVENTURE, Genre.DRAMA, Genre.SCIFI),
+            //genres = listOf(Genre.ADVENTURE, Genre.DRAMA, Genre.SCIFI),
             director = "Christopher Nolan",
             actors = "Ellen Burstyn, Matthew McConaughey, Mackenzie Foy, John Lithgow",
             plot = "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
@@ -88,7 +98,7 @@ fun getMovies(): List<Movie> {
         Movie(id = "tt0944947",
             title = "Game of Thrones",
             year = "2011 - 2018",
-            genres = listOf(Genre.ADVENTURE, Genre.DRAMA, Genre.FANTASY) ,
+            //genres = listOf(Genre.ADVENTURE, Genre.DRAMA, Genre.FANTASY) ,
             director = "N/A",
             actors = "Peter Dinklage, Lena Headey, Emilia Clarke, Kit Harington",
             plot = "While a civil war brews between several noble families in Westeros, the children of the former rulers of the land attempt to rise up to power. Meanwhile a forgotten race, bent on destruction, plans to return after thousands of years in the North.",
@@ -103,7 +113,7 @@ fun getMovies(): List<Movie> {
         Movie(id = "tt2306299",
             title = "Vikings",
             year = "2013–2020",
-            genres = listOf(Genre.ACTION, Genre.DRAMA, Genre.HISTORY),
+            //genres = listOf(Genre.ACTION, Genre.DRAMA, Genre.HISTORY),
             director = "N/A",
             actors = "Travis Fimmel, Clive Standen, Gustaf Skarsgård, Katheryn Winnick",
             plot = "The world of the Vikings is brought to life through the journey of Ragnar Lothbrok, the first Viking to emerge from Norse legend and onto the pages of history - a man on the edge of myth.",
@@ -117,7 +127,7 @@ fun getMovies(): List<Movie> {
         Movie(id = "tt0903747",
             title = "Breaking Bad",
             year = "2008–2013",
-            genres = listOf(Genre.CRIME, Genre.DRAMA, Genre.THRILLER),
+            //genres = listOf(Genre.CRIME, Genre.DRAMA, Genre.THRILLER),
             director = "N/A",
             actors = "Bryan Cranston, Anna Gunn, Aaron Paul, Dean Norris",
             plot = "A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's financial future.",
@@ -131,7 +141,7 @@ fun getMovies(): List<Movie> {
         Movie(id = "tt2707408",
             title = "Narcos",
             year = "2015-",
-            genres = listOf(Genre.BIOGRAPHY, Genre.CRIME, Genre.DRAMA),
+            //genres = listOf(Genre.BIOGRAPHY, Genre.CRIME, Genre.DRAMA),
             director = "N/A",
             actors = "Wagner Moura, Boyd Holbrook, Pedro Pascal, Joanna Christie",
             plot = "A chronicled look at the criminal exploits of Colombian drug lord Pablo Escobar.",
@@ -141,6 +151,5 @@ fun getMovies(): List<Movie> {
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BODA1NjAyMTQ3Ml5BMl5BanBnXkFtZTgwNjI1Mzc3OTE@._V1_SY1000_CR0,0,1499,1000_AL_.jpg",
                 "https://images-na.ssl-images-amazon.com/images/M/MV5BMTU0NzQ0OTAwNl5BMl5BanBnXkFtZTgwMDAyMzA1OTE@._V1_SX1500_CR0,0,1500,999_AL_.jpg"),
             rating = 9.5f),
-
         )
 }

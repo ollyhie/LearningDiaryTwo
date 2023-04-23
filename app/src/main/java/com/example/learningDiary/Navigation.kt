@@ -1,7 +1,6 @@
 package com.example.learningDiary
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,9 +30,8 @@ sealed class Navigation(val route: String) {
 
 @ExperimentalCoilApi
 @Composable
-fun NavigationController() {
+fun NavigationController(moviesViewModel: MoviesViewModel) {
     val navController = rememberNavController()
-    val moviesViewModel: MoviesViewModel = viewModel()
 
     NavHost(
         navController = navController,

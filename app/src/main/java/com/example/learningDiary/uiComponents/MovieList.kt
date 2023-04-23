@@ -41,6 +41,8 @@ import com.example.learningDiary.Navigation
 import com.example.learningDiary.models.Movie
 import com.example.learningDiary.viewModel.MoviesViewModel
 import coil.compose.rememberImagePainter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 fun getFavouredIcon(favoured: Boolean): ImageVector {
@@ -52,10 +54,12 @@ fun getFavouredIcon(favoured: Boolean): ImageVector {
 
 @ExperimentalCoilApi
 @Composable
-fun MovieList(navController: NavController, moviesViewModel: MoviesViewModel, movies: List<Movie>) {
+fun MovieList(navController: NavController, moviesViewModel: MoviesViewModel, movies: State<List<Movie>>) {
+
+    val coroutineScope = rememberCoroutineScope()
 
     LazyColumn {
-        items(movies) { movie ->
+        items(movies.value) { movie ->
             MovieRow(
                 movie = movie,
                 onMovieClicked = { movieID ->
@@ -63,8 +67,10 @@ fun MovieList(navController: NavController, moviesViewModel: MoviesViewModel, mo
                         route = Navigation.DetailScreen.setID(movieID)
                     )
                 },
-                onFavourIconClicked = { movieID ->
-                    moviesViewModel.toggleFavourite(movieID)
+                onFavourIconClicked = { clickedMovie ->
+                    coroutineScope.launch {
+                        moviesViewModel.toggleFavourite(movie = clickedMovie)
+                    }
                 }
             )
         }
@@ -73,7 +79,7 @@ fun MovieList(navController: NavController, moviesViewModel: MoviesViewModel, mo
 
 @ExperimentalCoilApi
 @Composable
-fun MovieRow(movie: Movie, onMovieClicked: (String) -> Unit = {}, onFavourIconClicked: (String) -> Unit = {}) {
+fun MovieRow(movie: Movie, onMovieClicked: (String) -> Unit = {}, onFavourIconClicked: (Movie) -> Unit = {}) {
 
     // For movie description
     var expanded by remember {
@@ -93,6 +99,7 @@ fun MovieRow(movie: Movie, onMovieClicked: (String) -> Unit = {}, onFavourIconCl
     }
     // For delay between images
     val handler = Handler()
+
 
     Card(
         modifier = Modifier
@@ -143,7 +150,7 @@ fun MovieRow(movie: Movie, onMovieClicked: (String) -> Unit = {}, onFavourIconCl
                 }
                 IconButton(
                     onClick = {
-                        onFavourIconClicked(movie.id)
+                        onFavourIconClicked(movie)
                     }, modifier = Modifier.align(Alignment.TopEnd)
                 ) {
                     Icon(
@@ -243,6 +250,7 @@ fun MovieRow(movie: Movie, onMovieClicked: (String) -> Unit = {}, onFavourIconCl
                                     }
                                 }
                             )
+                            /*
                             Text(
                                 modifier = Modifier.padding(top = 10.dp),
                                 text = buildAnnotatedString {
@@ -254,6 +262,8 @@ fun MovieRow(movie: Movie, onMovieClicked: (String) -> Unit = {}, onFavourIconCl
                                     }
                                 }
                             )
+
+                             */
                         }
                     }
                 }

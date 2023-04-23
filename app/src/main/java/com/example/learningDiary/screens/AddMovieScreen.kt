@@ -18,13 +18,17 @@ import androidx.navigation.NavController
 import com.example.learningDiary.R
 import com.example.learningDiary.models.Genre
 import com.example.learningDiary.models.ListItemSelectable
+import com.example.learningDiary.models.Movie
 import com.example.learningDiary.uiComponents.SimpleAppBar
 import com.example.learningDiary.viewModel.MoviesViewModel
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 @Composable
-fun AddMovieScreen(navController: NavController, moviesViewModel: MoviesViewModel){
+fun AddMovieScreen(navController: NavController, moviesViewModel: MoviesViewModel) {
     val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -33,23 +37,25 @@ fun AddMovieScreen(navController: NavController, moviesViewModel: MoviesViewMode
         },
     ) { padding ->
         MainContent(
-            moviesViewModel = moviesViewModel,
             modifier = Modifier.padding(padding),
-            onAddClicked = { navController.navigateUp() }
+            onAddClicked = { movie ->
+                coroutineScope.launch {
+                    moviesViewModel.addMovie(movie = movie)
+                }
+                navController.navigateUp() }
         )
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MainContent(moviesViewModel: MoviesViewModel, modifier: Modifier = Modifier, onAddClicked: () -> Unit) {
+fun MainContent(modifier: Modifier = Modifier, onAddClicked: (Movie) -> Unit) {
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight()
             .padding(10.dp)
     ) {
-
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -280,20 +286,24 @@ fun MainContent(moviesViewModel: MoviesViewModel, modifier: Modifier = Modifier,
             Button(
                 enabled = isEnabledSaveButton,
                 onClick = {
-                    moviesViewModel.addMovie(
+                    val mov = Movie(
+                        id = title.replace(" ", "") + LocalDateTime.now().toString(),
                         title = title,
                         year = year,
-                        genres = genres.filter { genre ->
-                                genreItems.filter { item -> item.isSelected }
-                                    .map { selectedItems -> selectedItems.title }
-                                    .contains(genre.name)
-                            },
+                        //genres = genres.filter { genre ->
+                        //    genreItems.filter { item -> item.isSelected }
+                        //        .map { selectedItems -> selectedItems.title }
+                        //        .contains(genre.name)
+                        //},
                         director = director,
                         actors = actors,
                         plot = plot,
-                        rating = rating.replace(",",".").toFloat()
+                        images = listOf(
+                            "https://thumbs.dreamstime.com/b/happy-cat-closeup-portrait-funny-smile-cardboard-young-blue-background-102078702.jpg"
+                        ),
+                        rating = rating.replace(",", ".").toFloat()
                     )
-                    onAddClicked()
+                    onAddClicked(mov)
 
                 }) {
                 Text(text = stringResource(R.string.add))
